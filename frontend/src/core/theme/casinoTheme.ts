@@ -42,6 +42,18 @@ export const casinoTheme: ThemeDefinition = {
     felt: '#022c22',
     'felt-rim': '#78350f',
 
+    // Cartes à jouer
+    card: '#f8fafc',
+    'on-card': '#0f172a',
+    'suit-red': '#dc2626',
+    'card-back': '#1e3a8a',
+
+    // Jetons de casino (couleurs standards par valeur)
+    'chip-5': '#dc2626',
+    'chip-25': '#16a34a',
+    'chip-100': '#18181b',
+    'chip-500': '#7c3aed',
+
     // États
     success: '#34d399',
     info: '#38bdf8',

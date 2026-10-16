@@ -32,7 +32,19 @@ export const useAuthStore = defineStore('auth', () => {
    * pour que chaque jeu soit utilisable immédiatement. Le Dev 2 remplacera ce fallback
    * par une redirection vers /login.
    */
-  async function restoreSession() {
+  let sessionRestore: Promise<void> | null = null;
+
+  function restoreSession() {
+    sessionRestore ??= doRestoreSession();
+    return sessionRestore;
+  }
+
+  /** Résolue une fois la session restaurée : à attendre avant le premier appel API d'un jeu. */
+  function ready() {
+    return sessionRestore ?? Promise.resolve();
+  }
+
+  async function doRestoreSession() {
     if (token.value) {
       try {
         const { data } = await httpClient.get<User>('/auth/me');
@@ -60,6 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
     setAuth,
     login,
     restoreSession,
+    ready,
     logout,
   };
 });
