@@ -18,6 +18,7 @@ L'application est une plateforme de Casino en ligne (**Play Money uniquement** :
 | **Auth, Profil & Wallet** | Dev 2 | API REST | Inscription/Connexion (JWT), gestion du profil, historique des transactions, boutique/rechargement gratuit de jetons, Lobby principal. **Chemin critique** : le vrai Wallet débloque tous les autres. |
 | **Jeu Casino #1 (ex: Blackjack)** | Dev 3 | API REST (ou WS) | Jeu Joueur vs Banque. Gestion des états de partie, tirage sécurisé côté serveur, appels au WalletService. |
 | **Jeu Casino #2 (ex: Roulette / Slots)** | Dev 4 | API REST (ou WS) | Jeu de mises rapides. Validation des grilles de mises, RNG cryptographique côté serveur, animations de tirage. |
+| **Jeu Casino #3 : Crash** | Dev 3 | WebSockets (Temps réel) | Multiplicateur partagé par tous les joueurs, encaissement à tout moment. Point de crash *provably fair* (graine publiée en hash avant la partie, révélée après), encaissement calculé à l'heure serveur, joueurs de la maison pour animer les parties. |
 
 > **Rééquilibrage de charge :** le module Poker (moteur + UI) représente nettement plus de travail que le Blackjack ou la Roulette. Une fois leur jeu au stade MVP, Dev 3 et/ou Dev 4 reprennent la branche `feat/poker-ui` (table, lobby poker, animations) pour que Dev 1 se concentre sur le moteur.
 
@@ -96,7 +97,7 @@ Le module Wallet expose des méthodes transactionnelles (avec verrouillage pessi
 **Le contrat est asynchrone dès le Jour 1**, même si l'implémentation bouchonnée est en mémoire : ainsi, le passage à PostgreSQL ne casse le code d'aucun jeu.
 
 ```ts
-type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE' | 'SHOP'; // SHOP = rechargements gratuits
+type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE' | 'CRASH' | 'SHOP'; // SHOP = rechargements gratuits
 
 getBalance(userId: string): Promise<number>
 debit(userId: string, amount: number, gameType: GameType, referenceId: string): Promise<TransactionResult>
@@ -160,7 +161,7 @@ Toutes les erreurs REST et WebSocket suivent le même format, pour que le front 
 { "code": "INSUFFICIENT_FUNDS", "message": "Solde insuffisant (200 jetons disponibles, 500 requis).", "details": {} }
 ```
 
-Codes communs : `UNAUTHORIZED`, `VALIDATION_ERROR`, `INSUFFICIENT_FUNDS`, `NOT_YOUR_TURN`, `INVALID_ACTION`, `GAME_NOT_FOUND`, `NOT_FOUND`, `CONFLICT` (ex: `referenceId` réutilisé pour une autre opération), `INTERNAL_ERROR`. Côté WebSocket, les erreurs sont émises sur l'événement `exception`. Chaque module peut ajouter ses propres codes préfixés (`POKER_…`, `BLACKJACK_…`, `ROULETTE_…`).
+Codes communs : `UNAUTHORIZED`, `VALIDATION_ERROR`, `INSUFFICIENT_FUNDS`, `NOT_YOUR_TURN`, `INVALID_ACTION`, `GAME_NOT_FOUND`, `NOT_FOUND`, `CONFLICT` (ex: `referenceId` réutilisé pour une autre opération), `INTERNAL_ERROR`. Côté WebSocket, les erreurs sont émises sur l'événement `exception`. Chaque module peut ajouter ses propres codes préfixés (`POKER_…`, `BLACKJACK_…`, `ROULETTE_…`, `CRASH_…`).
 
 ## **5. Règles de Sécurité & RNG (Obligatoire pour tous les jeux)**
 

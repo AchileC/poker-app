@@ -46,6 +46,7 @@ cd frontend && npm run format:check && npm run lint:check && npm run build
 | **Auth, Profil & Wallet** | Dev 2 | `frontend/src/features/auth-wallet/` & `home/` | `backend/src/common/auth/` & `wallet/` |
 | **Blackjack** | Dev 3 | `frontend/src/features/blackjack/` | `backend/src/modules/blackjack/` |
 | **Roulette** | Dev 4 | `frontend/src/features/roulette/` | `backend/src/modules/roulette/` |
+| **Crash** | Dev 3 | `frontend/src/features/crash/` | `backend/src/modules/crash/` |
 
 ## 4. Contrats du Socle Commun
 

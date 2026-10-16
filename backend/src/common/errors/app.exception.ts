@@ -16,7 +16,11 @@ export type CommonErrorCode =
   | 'INTERNAL_ERROR';
 
 export type ErrorCode =
-  CommonErrorCode | `POKER_${string}` | `BLACKJACK_${string}` | `ROULETTE_${string}`;
+  | CommonErrorCode
+  | `POKER_${string}`
+  | `BLACKJACK_${string}`
+  | `ROULETTE_${string}`
+  | `CRASH_${string}`;
 
 export interface ApiErrorBody {
   code: ErrorCode;
