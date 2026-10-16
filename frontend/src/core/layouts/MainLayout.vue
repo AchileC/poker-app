@@ -10,6 +10,7 @@ const navLinks = [
   { title: "Poker Hold'em", to: '/poker', icon: 'mdi-cards-playing-spade' },
   { title: 'Blackjack', to: '/blackjack', icon: 'mdi-cards-playing-club' },
   { title: 'Roulette', to: '/roulette', icon: 'mdi-poker-chip' },
+  { title: 'Crash', to: '/crash', icon: 'mdi-chart-line-variant' },
 ];
 </script>
 
