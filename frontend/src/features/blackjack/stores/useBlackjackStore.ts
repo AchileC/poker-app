@@ -14,12 +14,19 @@ export const useBlackjackStore = defineStore('blackjack', () => {
   const bet = ref(0);
   const isBusy = ref(false);
   const error = ref<string | null>(null);
+  /** true quand la partie vient d'une reprise (refresh) : on l'affiche sans rejouer la distribution. */
+  const isRestoring = ref(false);
 
   const rules = computed(() => tables.value.find((t) => t.table === selectedTable.value) ?? null);
   const isPlaying = computed(() => round.value !== null && round.value.phase !== 'SETTLED');
 
   function applyResponse(response: RoundResponse) {
-    round.value = response.round;
+    if (
+      response.round?.id !== round.value?.id ||
+      response.round?.version !== round.value?.version
+    ) {
+      round.value = response.round;
+    }
     // Le solde vient toujours du serveur (CDC §4.3)
     useWalletStore().setBalance(response.newBalance);
   }
@@ -42,9 +49,14 @@ export const useBlackjackStore = defineStore('blackjack', () => {
 
   async function loadCurrent() {
     const { data } = await httpClient.get<RoundResponse>('/blackjack/rounds/current');
+    isRestoring.value = true;
     applyResponse(data);
+    isRestoring.value = false;
     if (data.round) {
       selectedTable.value = data.round.rules.table;
+      // Reprise : on retrouve la mise de départ pour pouvoir « Rejouer » directement
+      const firstHand = data.round.hands[0]!;
+      if (!bet.value) bet.value = firstHand.doubled ? firstHand.bet / 2 : firstHand.bet;
     }
   }
 
@@ -96,6 +108,7 @@ export const useBlackjackStore = defineStore('blackjack', () => {
     bet,
     isBusy,
     error,
+    isRestoring,
     rules,
     isPlaying,
     init,
