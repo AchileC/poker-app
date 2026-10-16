@@ -1,0 +1,9 @@
+// Réglages Sass de Vuetify (chargés par vite-plugin-vuetify).
+@use 'vuetify/settings' with (
+  // Styles Vuetify rangés dans des couches CSS (ordre défini dans public/layers.css)
+  $layers: true,
+  // Mise en page / espacement : Tailwind uniquement (pas de d-flex, ma-2, text-h1...)
+  $utilities: false,
+  // Couleurs : uniquement celles du thème (core/theme/casinoTheme.ts), pas la palette Material
+  $color-pack: false
+);

@@ -1,0 +1,15 @@
+/*
+ * Ordre des couches CSS (Section 2 du CDC) — chargé AVANT toute autre feuille de style.
+ * Reset Tailwind < Vuetify (composants) < utilitaires Tailwind (mise en page).
+ * Ainsi une classe Tailwind posée sur un composant Vuetify gagne toujours, de façon prévisible.
+ *
+ * Noms de couches de Vuetify 3 ($layers: true dans styles/settings.scss). Vuetify 4 les renomme
+ * (vuetify-core, vuetify-components...) : à adapter en cas de montée de version.
+ * Doc : https://vuetifyjs.com/en/features/css-utilities/tailwindcss
+ */
+@layer tailwind-theme, tailwind-reset, vuetify, tailwind-utilities;
+
+@layer vuetify {
+  @layer reset, transitions, base, components, overrides, theme.background, theme.foreground,
+    utilities;
+}

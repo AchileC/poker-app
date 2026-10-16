@@ -4,7 +4,7 @@ Socle technique commun modulaire (« Zéro Conflit Git ») conçu pour une équi
 
 ## 1. Stack Technique
 
-- **Frontend (`frontend/`)** : Vue.js 3 (`<script setup lang="ts">`), TypeScript, Pinia, Vue Router, Vuetify 3 + Tailwind CSS (une seule des deux à garder, cf. CDC §2), Axios, Socket.IO Client.
+- **Frontend (`frontend/`)** : Vue.js 3 (`<script setup lang="ts">`), TypeScript, Pinia, Vue Router, Vuetify 3 (composants) + Tailwind CSS 4 (mise en page), couleurs issues du thème Vuetify (cf. CDC §2), Axios, Socket.IO Client.
 - **Backend (`backend/`)** : Node.js / NestJS (TypeScript), API REST (`/api`) + WebSockets (Socket.IO), TypeORM, JWT, Jest.
 - **Base de données & Cache (`docker-compose.yml`)** : PostgreSQL 16 + Redis 7.
 
@@ -65,3 +65,12 @@ cd frontend && npm run format:check && npm run lint:check && npm run build
 - **`useWalletStore`** : `balance`, `setBalance(newBalance)`, `refresh()`. Le solde vient **toujours** du serveur (`newBalance` dans chaque réponse de jeu).
 - **`httpClient`** (JWT automatique) et `toApiError(err)` pour afficher les erreurs.
 - **`getSocketClient(namespace)`** : Socket.IO authentifié par JWT au handshake.
+
+### UI : Vuetify + Tailwind
+- **Vuetify pour les composants**, **Tailwind pour la mise en page**. Pas de `d-flex` / `ma-2` (désactivés) : utiliser `flex`, `m-2`…
+- **Couleurs : uniquement les tokens du thème** ([`casinoTheme.ts`](frontend/src/core/theme/casinoTheme.ts)), avec les mêmes noms des deux côtés :
+  ```vue
+  <v-btn color="primary">Miser</v-btn>
+  <div class="rounded-xl border border-line bg-surface p-6 text-muted">…</div>
+  ```
+  `bg-slate-900`, `text-amber-400` ou `color="amber-accent-3"` n'existent pas.

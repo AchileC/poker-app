@@ -14,16 +14,16 @@ const navLinks = [
 </script>
 
 <template>
-  <v-app theme="dark">
-    <v-app-bar flat class="border-b border-slate-800 bg-slate-900/90 backdrop-blur">
+  <v-app>
+    <v-app-bar flat class="border-b border-line bg-surface/90 backdrop-blur">
       <v-container class="mx-auto flex items-center justify-between px-4 py-0">
         <!-- Brand & Navigation -->
         <div class="flex items-center gap-6">
           <RouterLink
             to="/"
-            class="flex items-center gap-2 text-lg font-bold tracking-wide text-amber-400 no-underline"
+            class="flex items-center gap-2 text-lg font-bold tracking-wide text-primary no-underline"
           >
-            <v-icon icon="mdi-poker-chip" color="amber-lighten-1" size="28" />
+            <v-icon icon="mdi-poker-chip" color="primary" size="28" />
             <span>ROYAL CASINO</span>
           </RouterLink>
 
@@ -33,7 +33,7 @@ const navLinks = [
               :key="link.to"
               :to="link.to"
               variant="text"
-              class="text-none font-medium"
+              class="normal-case font-medium"
               :prepend-icon="link.icon"
             >
               {{ link.title }}
@@ -44,10 +44,10 @@ const navLinks = [
         <!-- Wallet Balance & Auth -->
         <div class="flex items-center gap-3">
           <div
-            class="flex items-center gap-2 rounded-full border border-amber-500/30 bg-slate-800/90 px-4 py-1.5"
+            class="flex items-center gap-2 rounded-full border border-primary/30 bg-surface-bright/90 px-4 py-1.5"
           >
-            <v-icon icon="mdi-poker-chip" color="amber-accent-3" size="20" />
-            <span class="text-sm font-semibold text-amber-300">
+            <v-icon icon="mdi-poker-chip" color="primary" size="20" />
+            <span class="text-sm font-semibold text-primary">
               {{ walletStore.balance.toLocaleString('fr-FR') }} Jetons
             </span>
           </div>
@@ -55,9 +55,9 @@ const navLinks = [
           <v-btn
             to="/login"
             variant="tonal"
-            color="amber-accent-3"
+            color="primary"
             prepend-icon="mdi-account-circle"
-            class="text-none"
+            class="normal-case"
           >
             {{ authStore.user ? authStore.user.username : 'Connexion' }}
           </v-btn>
@@ -65,7 +65,7 @@ const navLinks = [
       </v-container>
     </v-app-bar>
 
-    <v-main class="bg-slate-950 min-h-screen">
+    <v-main class="bg-background min-h-screen">
       <v-container class="mx-auto py-8 px-4">
         <slot />
       </v-container>

@@ -22,15 +22,15 @@ async function handleLogin() {
 
 <template>
   <div class="mx-auto max-w-md">
-    <v-card class="rounded-xl border border-slate-800 bg-slate-900 p-6" elevation="0">
+    <v-card class="rounded-xl border border-line bg-surface p-6" elevation="0">
       <div class="mb-6 flex items-center justify-between">
         <div>
-          <span class="text-xs font-mono text-amber-400"
+          <span class="text-xs font-mono text-primary"
             >Périmètre Dev 2 • Auth, Profil & Wallet</span
           >
-          <h1 class="text-2xl font-bold text-white mt-1">Connexion & Portefeuille</h1>
+          <h1 class="text-2xl font-bold text-on-surface mt-1">Connexion & Portefeuille</h1>
         </div>
-        <v-icon icon="mdi-shield-key-outline" size="32" color="amber-accent-3" />
+        <v-icon icon="mdi-shield-key-outline" size="32" color="primary" />
       </div>
 
       <v-form @submit.prevent="handleLogin">
@@ -55,10 +55,10 @@ async function handleLogin() {
         <v-btn
           type="submit"
           :loading="isLoading"
-          color="amber-accent-3"
+          color="primary"
           variant="flat"
           block
-          class="text-none font-bold text-slate-950"
+          class="normal-case font-bold"
         >
           Se connecter (Mock Actif)
         </v-btn>
@@ -67,8 +67,8 @@ async function handleLogin() {
       <v-divider class="my-6" />
 
       <div class="flex items-center justify-between text-sm">
-        <span class="text-slate-400">Solde Wallet :</span>
-        <span class="font-bold text-amber-300">{{ walletStore.balance }} Jetons</span>
+        <span class="text-muted">Solde Wallet :</span>
+        <span class="font-bold text-primary">{{ walletStore.balance }} Jetons</span>
       </div>
     </v-card>
   </div>

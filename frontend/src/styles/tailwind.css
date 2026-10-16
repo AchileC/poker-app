@@ -1,0 +1,43 @@
+/*
+ * Tailwind = mise en page, espacement, typographie. Vuetify = composants.
+ * Chaque partie de Tailwind est rangée dans sa couche (ordre : public/layers.css).
+ */
+@import 'tailwindcss/theme.css' layer(tailwind-theme);
+@import 'tailwindcss/preflight.css' layer(tailwind-reset);
+@import 'tailwindcss/utilities.css' layer(tailwind-utilities);
+
+/*
+ * Couleurs : SOURCE UNIQUE = thème Vuetify (src/core/theme/casinoTheme.ts).
+ * La palette par défaut de Tailwind est désactivée : seules ces couleurs existent.
+ */
+@theme inline {
+  --color-*: initial;
+
+  --color-background: rgb(var(--v-theme-background));
+  --color-surface: rgb(var(--v-theme-surface));
+  --color-surface-bright: rgb(var(--v-theme-surface-bright));
+  --color-surface-variant: rgb(var(--v-theme-surface-variant));
+
+  --color-on-background: rgb(var(--v-theme-on-background));
+  --color-on-surface: rgb(var(--v-theme-on-surface));
+  --color-muted: rgb(var(--v-theme-muted));
+  --color-subtle: rgb(var(--v-theme-subtle));
+
+  --color-line: rgb(var(--v-theme-line));
+  --color-line-strong: rgb(var(--v-theme-line-strong));
+
+  --color-primary: rgb(var(--v-theme-primary));
+  --color-on-primary: rgb(var(--v-theme-on-primary));
+  --color-secondary: rgb(var(--v-theme-secondary));
+  --color-on-secondary: rgb(var(--v-theme-on-secondary));
+  --color-accent: rgb(var(--v-theme-accent));
+  --color-on-accent: rgb(var(--v-theme-on-accent));
+
+  --color-felt: rgb(var(--v-theme-felt));
+  --color-felt-rim: rgb(var(--v-theme-felt-rim));
+
+  --color-success: rgb(var(--v-theme-success));
+  --color-info: rgb(var(--v-theme-info));
+  --color-warning: rgb(var(--v-theme-warning));
+  --color-error: rgb(var(--v-theme-error));
+}

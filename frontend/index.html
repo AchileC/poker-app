@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Ordre des couches CSS : doit être chargé avant toute autre feuille de style -->
+    <link rel="stylesheet" href="/layers.css" />
     <title>Casino & Poker Platform — Play Money</title>
   </head>
-  <body class="bg-slate-950 text-slate-100 antialiased">
+  <body class="antialiased">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

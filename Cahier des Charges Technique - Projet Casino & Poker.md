@@ -24,7 +24,12 @@ L'application est une plateforme de Casino en ligne (**Play Money uniquement** :
 ## **2. Stack Technique Commune**
 
 * **Frontend :** Vue.js 3 (Composition API, `<script setup lang="ts">`), TypeScript, Pinia (State Management), Vue Router, Axios, Socket.IO Client.
-  * **UI :** une seule librairie de composants/styles — **Tailwind CSS** _ou_ **Vuetify 3**, à trancher en équipe avant le début du dev (les deux ensemble entrent en conflit sur les resets CSS et les conventions).
+  * **UI : Vuetify 3 + Tailwind CSS 4, avec un rôle chacun :**
+    * **Vuetify = composants** (boutons, formulaires, cartes, dialogues, tables…). Ses classes utilitaires (`d-flex`, `ma-2`, `text-h1`…) et sa palette Material (`amber-accent-3`…) sont **désactivées**.
+    * **Tailwind = mise en page** (flex/grid, espacement, typographie, bordures, responsive). Sa palette par défaut (`slate-900`, `amber-400`…) est **désactivée**.
+    * **Couches CSS** (`frontend/public/layers.css`, chargé en premier) : reset Tailwind < Vuetify < utilitaires Tailwind. Une classe Tailwind posée sur un composant Vuetify s'applique donc toujours.
+    * **Source unique des couleurs : le thème Vuetify** (`frontend/src/core/theme/casinoTheme.ts`). Les mêmes noms servent aux deux : `color="primary"` sur un composant, `bg-surface`, `text-muted`, `border-line`, `bg-primary/10` en Tailwind. Ajouter une couleur = l'ajouter au thème **et** déclarer son nom dans `frontend/src/styles/tailwind.css`.
+    * Tokens disponibles : `background`, `surface`, `surface-bright`, `surface-variant`, `on-background`, `on-surface`, `muted`, `subtle`, `line`, `line-strong`, `primary` (or, Blackjack), `secondary` (émeraude, Poker), `accent` (rose, Roulette), `felt`, `felt-rim`, `success`, `info`, `warning`, `error`.
 * **Backend :** **Node.js / NestJS** (TypeScript), architecture modulaire, API REST (préfixe `/api`) + WebSockets (**Socket.IO**), TypeORM, JWT.
 * **Base de données :**
   * **PostgreSQL 16 :** Persistance des utilisateurs, solde du Wallet, historique des transactions, historique des parties et jetons « en jeu » (voir §4.4).
@@ -208,5 +213,5 @@ Le MVP (démo jouable de bout en bout) comprend :
 ## **9. Plan de Démarrage (Jour 1)**
 
 1. **Étape 1 (Dev 1) :** Création du dépôt GitHub, initialisation du squelette Front + Back + docker-compose.yml, création des routes vides (/poker, /blackjack, /roulette, /login), d'un `WalletService` bouchonné **au contrat asynchrone** et d'un `useWalletStore` mocké (1 000 jetons par défaut). Mise en place de la CI et de la protection des branches.
-2. **Étape 2 (Toute l'équipe) :** Clone du dépôt, `cp .env.example .env`, lancement de `docker compose up -d`, création des branches respectives. Choix de la librairie UI (Tailwind ou Vuetify) et de la date de démo.
+2. **Étape 2 (Toute l'équipe) :** Clone du dépôt, `cp .env.example .env`, lancement de `docker compose up -d`, création des branches respectives. Choix de la date de démo.
 3. **Étape 3 (Développement en parallèle) :** Chacun développe son jeu dans son dossier `features/<mon-jeu>` en utilisant le Wallet bouchonné (avec `await` et des `referenceId` uniques dès le départ). Dès que le Dev 2 termine le vrai module Auth/Wallet, il remplace le mock par l'implémentation PostgreSQL sans changer la signature : le code des 3 autres jeux ne bouge pas.
