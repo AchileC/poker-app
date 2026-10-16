@@ -36,6 +36,16 @@
   --color-felt: rgb(var(--v-theme-felt));
   --color-felt-rim: rgb(var(--v-theme-felt-rim));
 
+  --color-card: rgb(var(--v-theme-card));
+  --color-on-card: rgb(var(--v-theme-on-card));
+  --color-suit-red: rgb(var(--v-theme-suit-red));
+  --color-card-back: rgb(var(--v-theme-card-back));
+
+  --color-chip-5: rgb(var(--v-theme-chip-5));
+  --color-chip-25: rgb(var(--v-theme-chip-25));
+  --color-chip-100: rgb(var(--v-theme-chip-100));
+  --color-chip-500: rgb(var(--v-theme-chip-500));
+
   --color-success: rgb(var(--v-theme-success));
   --color-info: rgb(var(--v-theme-info));
   --color-warning: rgb(var(--v-theme-warning));
