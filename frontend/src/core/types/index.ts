@@ -1,5 +1,5 @@
 /** 'SHOP' : rechargements gratuits de jetons (boutique). */
-export type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE' | 'SHOP';
+export type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE' | 'CRASH' | 'SHOP';
 
 export interface User {
   id: string;
