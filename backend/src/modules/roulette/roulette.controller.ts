@@ -1,0 +1,12 @@
+import { Controller, Get } from '@nestjs/common';
+import { RouletteService } from './roulette.service';
+
+@Controller('roulette')
+export class RouletteController {
+  constructor(private readonly rouletteService: RouletteService) {}
+
+  @Get('status')
+  getStatus() {
+    return this.rouletteService.getStatus();
+  }
+}
