@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { WalletService } from '../wallet/wallet.service';
+import { AuthUser } from './auth-user';
 
+/**
+ * Auth bouchonnée (Jour 1) : n'importe quel pseudo obtient un JWT valide.
+ * Le Dev 2 remplace loginMock par une vraie inscription/connexion sans changer le payload du JWT.
+ */
 @Injectable()
 export class AuthService {
   constructor(
@@ -9,19 +14,20 @@ export class AuthService {
     private readonly walletService: WalletService,
   ) {}
 
-  loginMock(username: string) {
-    const userId = `user-${username.toLowerCase()}`;
-    const balance = this.walletService.getBalance(userId);
-    const token = this.jwtService.sign({ sub: userId, username });
-
+  async loginMock(username: string) {
+    const payload: AuthUser = { sub: `user-${username.toLowerCase()}`, username };
     return {
-      user: {
-        id: userId,
-        username,
-        email: `${username.toLowerCase()}@casino.local`,
-        balance,
-      },
-      token,
+      user: await this.getProfile(payload),
+      token: this.jwtService.sign(payload),
+    };
+  }
+
+  async getProfile(authUser: AuthUser) {
+    return {
+      id: authUser.sub,
+      username: authUser.username,
+      email: `${authUser.username.toLowerCase()}@casino.local`,
+      balance: await this.walletService.getBalance(authUser.sub),
     };
   }
 }

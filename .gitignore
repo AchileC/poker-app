@@ -41,3 +41,8 @@ redis_data/
 # Testing
 coverage/
 **/coverage/
+
+# Fichiers générés par tsc/vue-tsc à côté des sources (ne jamais commiter)
+frontend/src/**/*.js
+frontend/src/**/*.d.ts
+*.tsbuildinfo

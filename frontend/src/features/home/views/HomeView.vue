@@ -1,13 +1,21 @@
 <script setup lang="ts">
+import { httpClient } from '@/core/api/httpClient';
 import { useWalletStore } from '@/core/stores/useWalletStore';
 
 const walletStore = useWalletStore();
+
+// Rechargement gratuit bouchonné (Jour 1), remplacé par la boutique du Dev 2
+async function mockTopUp() {
+  const { data } = await httpClient.post<{ newBalance: number }>('/wallet/mock-top-up');
+  walletStore.setBalance(data.newBalance);
+}
 
 const games = [
   {
     title: "Texas Hold'em Poker",
     subtitle: 'No-Limit 6-Max • Temps réel WebSocket',
-    description: 'Affrontez les autres joueurs sur nos tables Cash Game avec gestion de caves et Side Pots.',
+    description:
+      'Affrontez les autres joueurs sur nos tables Cash Game avec gestion de caves et Side Pots.',
     to: '/poker',
     icon: 'mdi-cards-playing-spade',
     owner: 'Dev 1 (Achile)',
@@ -25,7 +33,8 @@ const games = [
   {
     title: 'Roulette Européenne',
     subtitle: 'Mises Rapides • Zéro Unique',
-    description: 'Placez vos jetons sur le tapis et lancez la roue certifiée par RNG cryptographique.',
+    description:
+      'Placez vos jetons sur le tapis et lancez la roue certifiée par RNG cryptographique.',
     to: '/roulette',
     icon: 'mdi-poker-chip',
     owner: 'Dev 4',
@@ -36,10 +45,14 @@ const games = [
 
 <template>
   <div class="space-y-8">
-    <div class="rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-8">
+    <div
+      class="rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-8"
+    >
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <span class="inline-block rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-400">
+          <span
+            class="inline-block rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-400"
+          >
             Lobby Principal • Play Money
           </span>
           <h1 class="mt-2 text-3xl font-extrabold text-white">Bienvenue sur Royal Casino</h1>
@@ -49,7 +62,12 @@ const games = [
         </div>
 
         <div class="flex items-center gap-3">
-          <v-btn color="amber-accent-3" variant="tonal" prepend-icon="mdi-plus-circle" @click="walletStore.adjustBalance(500)">
+          <v-btn
+            color="amber-accent-3"
+            variant="tonal"
+            prepend-icon="mdi-plus-circle"
+            @click="mockTopUp"
+          >
             +500 Jetons (Test Mock)
           </v-btn>
         </div>
@@ -66,7 +84,9 @@ const games = [
         <div>
           <div class="flex items-center justify-between mb-4">
             <v-icon :icon="game.icon" size="36" color="amber-accent-3" />
-            <span class="text-xs font-mono text-slate-400 border border-slate-700 rounded px-2 py-0.5">
+            <span
+              class="text-xs font-mono text-slate-400 border border-slate-700 rounded px-2 py-0.5"
+            >
               {{ game.owner }}
             </span>
           </div>
@@ -75,7 +95,13 @@ const games = [
           <p class="text-sm text-slate-400 mt-3">{{ game.description }}</p>
         </div>
 
-        <v-btn :to="game.to" color="amber-accent-3" variant="flat" class="mt-6 text-none font-bold text-slate-950" block>
+        <v-btn
+          :to="game.to"
+          color="amber-accent-3"
+          variant="flat"
+          class="mt-6 text-none font-bold text-slate-950"
+          block
+        >
           Rejoindre la table
         </v-btn>
       </v-card>

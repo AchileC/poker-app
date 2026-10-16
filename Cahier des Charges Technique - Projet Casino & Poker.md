@@ -91,6 +91,8 @@ Le module Wallet expose des méthodes transactionnelles (avec verrouillage pessi
 **Le contrat est asynchrone dès le Jour 1**, même si l'implémentation bouchonnée est en mémoire : ainsi, le passage à PostgreSQL ne casse le code d'aucun jeu.
 
 ```ts
+type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE' | 'SHOP'; // SHOP = rechargements gratuits
+
 getBalance(userId: string): Promise<number>
 debit(userId: string, amount: number, gameType: GameType, referenceId: string): Promise<TransactionResult>
 credit(userId: string, amount: number, gameType: GameType, referenceId: string): Promise<TransactionResult>
@@ -153,7 +155,7 @@ Toutes les erreurs REST et WebSocket suivent le même format, pour que le front 
 { "code": "INSUFFICIENT_FUNDS", "message": "Solde insuffisant (200 jetons disponibles, 500 requis).", "details": {} }
 ```
 
-Codes communs : `UNAUTHORIZED`, `VALIDATION_ERROR`, `INSUFFICIENT_FUNDS`, `NOT_YOUR_TURN`, `INVALID_ACTION`, `GAME_NOT_FOUND`. Chaque module peut ajouter ses propres codes préfixés (`POKER_…`, `BLACKJACK_…`, `ROULETTE_…`).
+Codes communs : `UNAUTHORIZED`, `VALIDATION_ERROR`, `INSUFFICIENT_FUNDS`, `NOT_YOUR_TURN`, `INVALID_ACTION`, `GAME_NOT_FOUND`, `NOT_FOUND`, `CONFLICT` (ex: `referenceId` réutilisé pour une autre opération), `INTERNAL_ERROR`. Côté WebSocket, les erreurs sont émises sur l'événement `exception`. Chaque module peut ajouter ses propres codes préfixés (`POKER_…`, `BLACKJACK_…`, `ROULETTE_…`).
 
 ## **5. Règles de Sécurité & RNG (Obligatoire pour tous les jeux)**
 

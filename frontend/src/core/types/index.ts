@@ -1,4 +1,5 @@
-export type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE';
+/** 'SHOP' : rechargements gratuits de jetons (boutique). */
+export type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE' | 'SHOP';
 
 export interface User {
   id: string;
@@ -24,4 +25,11 @@ export interface TransactionResult {
   success: boolean;
   newBalance: number;
   transaction: WalletTransaction;
+}
+
+/** Format d'erreur API commun (Section 4.5 du Cahier des Charges), REST et WebSocket. */
+export interface ApiError {
+  code: string;
+  message: string;
+  details: Record<string, unknown>;
 }

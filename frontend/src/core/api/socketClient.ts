@@ -1,25 +1,28 @@
 import { io, type Socket } from 'socket.io-client';
+import { TOKEN_STORAGE_KEY } from './httpClient';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:3000';
 
-let socketInstance: Socket | null = null;
+const sockets = new Map<string, Socket>();
 
+/**
+ * Socket.IO authentifié par JWT au handshake (Section 5.2).
+ * Les erreurs serveur arrivent sur l'événement `exception` au format ApiError.
+ */
 export function getSocketClient(namespace = '/poker'): Socket {
-  if (!socketInstance) {
-    const token = localStorage.getItem('casino_jwt_token');
-    socketInstance = io(`${WS_URL}${namespace}`, {
+  let socket = sockets.get(namespace);
+  if (!socket) {
+    socket = io(`${WS_URL}${namespace}`, {
       autoConnect: false,
-      auth: {
-        token,
-      },
+      // Relu à chaque (re)connexion : un nouveau token après login est pris en compte
+      auth: (cb) => cb({ token: localStorage.getItem(TOKEN_STORAGE_KEY) }),
     });
+    sockets.set(namespace, socket);
   }
-  return socketInstance;
+  return socket;
 }
 
 export function disconnectSocketClient(): void {
-  if (socketInstance) {
-    socketInstance.disconnect();
-    socketInstance = null;
-  }
+  sockets.forEach((socket) => socket.disconnect());
+  sockets.clear();
 }

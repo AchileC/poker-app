@@ -7,6 +7,7 @@ import './style.css';
 
 import App from './App.vue';
 import { router } from './router';
+import { useAuthStore } from './core/stores/useAuthStore';
 
 const vuetify = createVuetify({
   theme: {
@@ -21,3 +22,5 @@ app.use(router);
 app.use(vuetify);
 
 app.mount('#app');
+
+void useAuthStore().restoreSession();

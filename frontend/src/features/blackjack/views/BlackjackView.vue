@@ -7,7 +7,9 @@ const walletStore = useWalletStore();
 <template>
   <div class="space-y-6">
     <div class="border-b border-slate-800 pb-4">
-      <span class="text-xs font-mono text-amber-400">Périmètre Dev 3 • Blackjack (Joueur vs Banque)</span>
+      <span class="text-xs font-mono text-amber-400"
+        >Périmètre Dev 3 • Blackjack (Joueur vs Banque)</span
+      >
       <h1 class="text-2xl font-bold text-white mt-1">Table de Blackjack</h1>
     </div>
 

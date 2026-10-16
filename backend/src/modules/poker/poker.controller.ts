@@ -1,4 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AuthUser, CurrentUser } from '../../common/auth/auth-user';
+import { JwtAuthGuard } from '../../common/auth/jwt-auth.guard';
+import { SitInDto, TableDto } from './poker.dto';
 import { PokerService } from './poker.service';
 
 @Controller('poker')
@@ -14,13 +17,15 @@ export class PokerController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('sit-in')
-  sitIn(@Body() body: { userId: string; amount: number; tableId: string }) {
-    return this.pokerService.sitIn(body.userId, body.amount, body.tableId);
+  sitIn(@CurrentUser() user: AuthUser, @Body() body: SitInDto) {
+    return this.pokerService.sitIn(user.sub, body.buyIn, body.tableId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('leave')
-  leave(@Body() body: { userId: string; tableId: string }) {
-    return this.pokerService.leaveTable(body.userId, body.tableId);
+  leave(@CurrentUser() user: AuthUser, @Body() body: TableDto) {
+    return this.pokerService.leaveTable(user.sub, body.tableId);
   }
 }

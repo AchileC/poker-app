@@ -1,4 +1,5 @@
-export type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE';
+/** 'SHOP' : rechargements gratuits de jetons (boutique, Dev 2). */
+export type GameType = 'POKER' | 'BLACKJACK' | 'ROULETTE' | 'SHOP';
 
 export type TransactionType = 'DEBIT' | 'CREDIT';
 

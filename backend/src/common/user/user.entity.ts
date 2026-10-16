@@ -20,7 +20,12 @@ export class UserEntity {
   @Column({ select: false })
   passwordHash!: string;
 
-  @Column({ type: 'integer', default: 1000 })
+  // BIGINT en base (Section 4.1) ; le driver pg renvoie une string, convertie en number
+  @Column({
+    type: 'bigint',
+    default: 1000,
+    transformer: { to: (value: number) => value, from: (value: string) => Number(value) },
+  })
   balance!: number;
 
   @CreateDateColumn()
