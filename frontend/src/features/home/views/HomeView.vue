@@ -40,6 +40,15 @@ const games = [
     owner: 'Dev 4',
     accent: 'accent',
   },
+  {
+    title: 'Crash',
+    subtitle: 'Multijoueur • Provably fair',
+    description: 'Le multiplicateur grimpe pour tout le monde : encaissez avant le crash.',
+    to: '/crash',
+    icon: 'mdi-chart-line-variant',
+    owner: 'Dev 3',
+    accent: 'success',
+  },
 ];
 </script>
 
